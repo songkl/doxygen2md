@@ -24,17 +24,17 @@
 var links = {};
 
 module.exports = {
-  
+
   link: function (text, href) {
     links[href] = links[href] || undefined;
     return '[' + text + '](' + href + ')';
   },
-  
+
   escape: {
     row: function (text) {
       return text.replace(/\s*\|\s*$/, '');
     },
-    
+
     /**
      * Escaping for a cell in a table.
      **/
@@ -43,6 +43,10 @@ module.exports = {
         .replace('/\|/g', '\\|')                // escape the pipe
         .replace(/\n/g, '<br/>');               // escape CRLF
     }
+  },
+
+  codeline : function (content) {
+    return '\n```' + content + '```\n';
   }
-  
+
 };

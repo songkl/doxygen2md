@@ -136,24 +136,12 @@ module.exports = {
 
         var page_index = 1;
         var contents = compounds.map(function (compound) {
-          if(compound.name === 'slim_app.h'){
-              console.log(compound);
-          }
-          // var md_str = compound.toMarkdown(templates);
-          // md_str = '---\nlayout: docs\ntitle:  ' + compound.name+'\norder:  ' + ( compounds.length - page_index ) + '\n---\n\n' + md_str;
-          // fs.writeFileSync('./md/'+compound.name+'.md', md_str);
-          // page_index++;
           return compound.toMarkdown(templates);
         });
         if(!fs.existsSync('md')){
           fs.mkdirSync('md');
         }
         fs.writeFileSync('./md/index.md', contents.join(''));
-        // contents.forEach(function (content) {
-        //   if (content) {
-        //     process.stdout.write(content);
-        //   }
-        // });
       });
     });
   }

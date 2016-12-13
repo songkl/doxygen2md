@@ -31,27 +31,27 @@ function Compound(name) {
 }
 
 Compound.prototype.find = function (fullname, create) {
-  
+
   var name = fullname[0];
   var compound = this.compounds[name];
-  
+
   if (!compound && create) {
     compound = this.compounds[name] = new Compound(name);
   }
-  
+
   if (compound && fullname.length > 1) {
     compound = compound.find(fullname.slice(1), true);
   }
-  
+
   return compound;
 }
 
 Compound.prototype.toArray = function (type) {
-  
+
   var arr = Object.keys(this[type]).map(function(key) {
     return this[key];
   }.bind(this[type]));
-  
+
   if (type == "compounds") {
     var all = new Array();
     arr.forEach(function (compound) {
@@ -60,48 +60,47 @@ Compound.prototype.toArray = function (type) {
     });
     arr = all;
   }
-  
+
   return arr;
-  
+
 }
 
 Compound.prototype.getAll = function (type, filtered) {
-  
+
   var all = [];
-  
+
   if (filtered) {
     (this.filtered[type] || []).forEach(function (item) {
       all.push(item);
       all = all.concat(item.getAll(type, filtered));
     });
   }
-  
+
   return all;
-  
+
 }
 
 Compound.prototype.filter = function (collection, key, filter) {
-  
+
   var categories = {};
   var result = [];
-  
+
   Object.keys(collection).forEach(function (name) {
     var item = collection[name];
     (categories[item[key]] || (categories[item[key]] = [])).push(item);
   });
-  
+
   filter.forEach(function (category) {
     result = result.concat(categories[category] || []);
   });
-  
+
   return result;
-  
+
 }
 
 Compound.prototype.toMarkdown = function (templates) {
-  
+
   var template;
-  
   switch (this.kind) {
     case 'namespace':
       if (Object.keys(this.compounds).length === 1
@@ -109,17 +108,17 @@ Compound.prototype.toMarkdown = function (templates) {
         return undefined;
       }
       template = 'namespace'; // no break intentionnaly
-      
+
     case 'class':
     case 'struct':
       log.verbose('Rendering ' + this.kind + ' ' + this.fullname);
       return templates[template || 'class'](this);
       break;
-    
+
     default:
-      return undefined;
+      return templates[this.kind](this);
   }
-  
+
   return;
 }
 

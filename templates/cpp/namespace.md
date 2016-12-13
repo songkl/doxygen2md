@@ -2,9 +2,10 @@
 
 {{briefdescription}}
 
-## Summary
+## 摘要
 
- Members                        | Descriptions                                
---------------------------------|---------------------------------------------
-{{#each filtered.compounds}}{{proto}}    | {{briefdescription}}
+| 成员                        | 描述                                |
+|--------------------------------|---------------------------------------------|
+{{#each filtered.compounds}}
+| {{proto}}                      | {{briefdescription}}                        |
 {{/each}}
